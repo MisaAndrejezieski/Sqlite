@@ -1,4 +1,8 @@
 import sqlite3
+from pathlib import Path
 
-conexao = sqlite3.connect("Clientes.db")
+ROOT_PATH = Path(__file__).parent
+
+
+conexao = sqlite3.connect(ROOT_PATH / "Clientes.db")
 print(conexao)
