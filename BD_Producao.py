@@ -1,6 +1,6 @@
 import sqlite3
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 
 class GerenciadorDeProducao:
     def __init__(self, db_nome):
@@ -50,35 +50,37 @@ class Aplicativo:
         self.gerenciador = gerenciador
         self.root = tk.Tk()
         self.root.title("Gerenciador de Produção")
+        style = ttk.Style()
+        style.theme_use('clam')
 
-        self.frame = tk.Frame(self.root)
+        self.frame = ttk.Frame(self.root)
         self.frame.pack()
 
-        self.label_nome = tk.Label(self.frame, text="Nome do Produto:")
+        self.label_nome = ttk.Label(self.frame, text="Nome do Produto:")
         self.label_nome.pack(side=tk.LEFT)
-        self.entry_nome = tk.Entry(self.frame)
+        self.entry_nome = ttk.Entry(self.frame)
         self.entry_nome.pack(side=tk.LEFT)
 
-        self.label_quantidade = tk.Label(self.frame, text="Quantidade:")
+        self.label_quantidade = ttk.Label(self.frame, text="Quantidade:")
         self.label_quantidade.pack(side=tk.LEFT)
-        self.entry_quantidade = tk.Entry(self.frame)
+        self.entry_quantidade = ttk.Entry(self.frame)
         self.entry_quantidade.pack(side=tk.LEFT)
 
-        self.label_id = tk.Label(self.frame, text="ID do Produto (para atualizar/deletar):")
+        self.label_id = ttk.Label(self.frame, text="ID do Produto (para atualizar/deletar):")
         self.label_id.pack(side=tk.LEFT)
-        self.entry_id = tk.Entry(self.frame)
+        self.entry_id = ttk.Entry(self.frame)
         self.entry_id.pack(side=tk.LEFT)
 
-        self.button_adicionar = tk.Button(self.frame, text="Adicionar Produto", command=self.adicionar_produto)
+        self.button_adicionar = ttk.Button(self.frame, text="Adicionar Produto", command=self.adicionar_produto)
         self.button_adicionar.pack(side=tk.LEFT)
 
-        self.button_atualizar = tk.Button(self.frame, text="Atualizar Produto", command=self.atualizar_produto)
+        self.button_atualizar = ttk.Button(self.frame, text="Atualizar Produto", command=self.atualizar_produto)
         self.button_atualizar.pack(side=tk.LEFT)
 
-        self.button_deletar = tk.Button(self.frame, text="Deletar Produto", command=self.deletar_produto)
+        self.button_deletar = ttk.Button(self.frame, text="Deletar Produto", command=self.deletar_produto)
         self.button_deletar.pack(side=tk.LEFT)
 
-        self.button_visualizar = tk.Button(self.frame, text="Visualizar Produtos", command=self.visualizar_produtos)
+        self.button_visualizar = ttk.Button(self.frame, text="Visualizar Produtos", command=self.visualizar_produtos)
         self.button_visualizar.pack(side=tk.LEFT)
 
         self.listbox = tk.Listbox(self.root)
