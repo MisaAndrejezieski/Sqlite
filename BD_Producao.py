@@ -109,20 +109,44 @@ class Aplicativo:
         else:
             messagebox.showerror("Erro", "Ocorreu um erro ao atualizar o produto.")
 
-    def deletar_produto(self):
-        id = int(self.entry_id.get())
-        if self.gerenciador.deletar_produto(id):
-            messagebox.showinfo("Sucesso", "Produto deletado com sucesso!")
-        else:
-            messagebox.showerror("Erro", "Ocorreu um erro ao deletar o produto.")
+    # def deletar_produto(self):
+    #     id = int(self.entry_id.get())
+    #     if self.gerenciador.deletar_produto(id):
+    #         messagebox.showinfo("Sucesso", "Produto deletado com sucesso!")
+    #     else:
+    #         messagebox.showerror("Erro", "Ocorreu um erro ao deletar o produto.")
+
+    def deletar_produto(self, id):
+        self.c.execute("SELECT * FROM produtos WHERE id = ?", (id,))
+        produto = self.c.fetchone()
+        if produto is None:
+            return False
+
+        try:
+            self.c.execute("DELETE FROM produtos WHERE id = ?", (id,))
+            self.conn.commit()
+            return True
+        except sqlite3.Error as e:
+            print(f"Ocorreu um erro ao deletar o produto: {e}")
+            return False
+        
+    # def visualizar_produtos(self):
+    #     self.listbox.delete(0, tk.END)
+    #     produtos = self.gerenciador.visualizar_produtos()
+    #     for produto in produtos:
+    #         id, nome, quantidade = produto
+    #     self.listbox.insert(tk.END, f"ID: {id}, Nome: {nome}, Quantidade: {quantidade}")
 
     def visualizar_produtos(self):
         self.listbox.delete(0, tk.END)
-        produtos = self.gerenciador.visualizar_produtos()
-        for produto in produtos:
-            id, nome, quantidade = produto
-        self.listbox.insert(tk.END, f"ID: {id}, Nome: {nome}, Quantidade: {quantidade}")
-
+        try:
+            produtos = self.gerenciador.visualizar_produtos()
+            for produto in produtos:
+                id, nome, quantidade = produto
+                self.listbox.insert(tk.END, f"ID: {id}, Nome: {nome}, Quantidade: {quantidade}")
+        except Exception as e:
+            print(f"Ocorreu um erro ao visualizar os produtos: {e}")
+            
     
     def run(self):
         self.root.mainloop()
