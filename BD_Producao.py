@@ -64,6 +64,11 @@ class Aplicativo:
         self.entry_quantidade = tk.Entry(self.frame)
         self.entry_quantidade.pack(side=tk.LEFT)
 
+        self.label_id = tk.Label(self.frame, text="ID do Produto (para atualizar/deletar):")
+        self.label_id.pack(side=tk.LEFT)
+        self.entry_id = tk.Entry(self.frame)
+        self.entry_id.pack(side=tk.LEFT)
+
         self.button_adicionar = tk.Button(self.frame, text="Adicionar Produto", command=self.adicionar_produto)
         self.button_adicionar.pack(side=tk.LEFT)
 
@@ -76,6 +81,9 @@ class Aplicativo:
         self.button_visualizar = tk.Button(self.frame, text="Visualizar Produtos", command=self.visualizar_produtos)
         self.button_visualizar.pack(side=tk.LEFT)
 
+        self.listbox = tk.Listbox(self.root)
+        self.listbox.pack()
+
     def adicionar_produto(self):
         nome = self.entry_nome.get()
         quantidade = int(self.entry_quantidade.get())
@@ -85,7 +93,7 @@ class Aplicativo:
             messagebox.showerror("Erro", "Ocorreu um erro ao adicionar o produto.")
 
     def atualizar_produto(self):
-        id = int(input("Digite o ID do produto que deseja atualizar: "))
+        id = int(self.entry_id.get())
         nome = self.entry_nome.get()
         quantidade = int(self.entry_quantidade.get())
         if self.gerenciador.atualizar_produto(id, nome, quantidade):
@@ -94,15 +102,17 @@ class Aplicativo:
             messagebox.showerror("Erro", "Ocorreu um erro ao atualizar o produto.")
 
     def deletar_produto(self):
-        id = int(input("Digite o ID do produto que deseja deletar: "))
+        id = int(self.entry_id.get())
         if self.gerenciador.deletar_produto(id):
             messagebox.showinfo("Sucesso", "Produto deletado com sucesso!")
         else:
             messagebox.showerror("Erro", "Ocorreu um erro ao deletar o produto.")
 
     def visualizar_produtos(self):
+        self.listbox.delete(0, tk.END)
         produtos = self.gerenciador.visualizar_produtos()
-        messagebox.showinfo("Produtos", "\n".join(map(str, produtos)))
+        for produto in produtos:
+            self.listbox.insert(tk.END, produto)
 
     def run(self):
         self.root.mainloop()
