@@ -13,16 +13,28 @@ class GerenciadorDeProducao:
         ''')
 
     def adicionar_produto(self, nome, quantidade):
-        self.c.execute("INSERT INTO produtos (nome, quantidade) VALUES (?, ?)", (nome, quantidade))
-        self.conn.commit()
+        try:
+            self.c.execute("INSERT INTO produtos (nome, quantidade) VALUES (?, ?)", (nome, quantidade))
+            self.conn.commit()
+            print(f"Produto '{nome}' adicionado com sucesso!")
+        except sqlite3.Error as e:
+            print(f"Ocorreu um erro ao adicionar o produto: {e}")
 
     def atualizar_produto(self, id, nome, quantidade):
-        self.c.execute("UPDATE produtos SET nome = ?, quantidade = ? WHERE id = ?", (nome, quantidade, id))
-        self.conn.commit()
+        try:
+            self.c.execute("UPDATE produtos SET nome = ?, quantidade = ? WHERE id = ?", (nome, quantidade, id))
+            self.conn.commit()
+            print(f"Produto ID '{id}' atualizado com sucesso!")
+        except sqlite3.Error as e:
+            print(f"Ocorreu um erro ao atualizar o produto: {e}")
 
     def deletar_produto(self, id):
-        self.c.execute("DELETE FROM produtos WHERE id = ?", (id,))
-        self.conn.commit()
+        try:
+            self.c.execute("DELETE FROM produtos WHERE id = ?", (id,))
+            self.conn.commit()
+            print(f"Produto ID '{id}' deletado com sucesso!")
+        except sqlite3.Error as e:
+            print(f"Ocorreu um erro ao deletar o produto: {e}")
 
     def visualizar_produtos(self):
         self.c.execute("SELECT * FROM produtos")
@@ -35,6 +47,7 @@ class GerenciadorDeProducao:
 gerenciador = GerenciadorDeProducao('producao.db')
 
 while True:
+    print("\n--- Gerenciador de Produção ---")
     print("1. Adicionar produto")
     print("2. Atualizar produto")
     print("3. Deletar produto")
@@ -55,6 +68,7 @@ while True:
         id = int(input("Digite o ID do produto que deseja deletar: "))
         gerenciador.deletar_produto(id)
     elif opcao == '4':
+        print("\nProdutos:")
         produtos = gerenciador.visualizar_produtos()
         for produto in produtos:
             print(produto)
