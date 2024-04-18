@@ -114,8 +114,10 @@ class Aplicativo:
         self.listbox.delete(0, tk.END)
         produtos = self.gerenciador.visualizar_produtos()
         for produto in produtos:
-            self.listbox.insert(tk.END, produto)
+            id, nome, quantidade = produto
+        self.listbox.insert(tk.END, f"ID: {id}, Nome: {nome}, Quantidade: {quantidade}")
 
+    
     def run(self):
         self.root.mainloop()
 
