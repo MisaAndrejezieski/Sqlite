@@ -16,6 +16,14 @@ class GerenciadorDeProducao:
         self.c.execute("INSERT INTO produtos (nome, quantidade) VALUES (?, ?)", (nome, quantidade))
         self.conn.commit()
 
+    def atualizar_produto(self, id, nome, quantidade):
+        self.c.execute("UPDATE produtos SET nome = ?, quantidade = ? WHERE id = ?", (nome, quantidade, id))
+        self.conn.commit()
+
+    def deletar_produto(self, id):
+        self.c.execute("DELETE FROM produtos WHERE id = ?", (id,))
+        self.conn.commit()
+
     def visualizar_produtos(self):
         self.c.execute("SELECT * FROM produtos")
         return self.c.fetchall()
@@ -28,8 +36,10 @@ gerenciador = GerenciadorDeProducao('producao.db')
 
 while True:
     print("1. Adicionar produto")
-    print("2. Visualizar produtos")
-    print("3. Sair")
+    print("2. Atualizar produto")
+    print("3. Deletar produto")
+    print("4. Visualizar produtos")
+    print("5. Sair")
     opcao = input("Escolha uma opção: ")
 
     if opcao == '1':
@@ -37,10 +47,18 @@ while True:
         quantidade = int(input("Digite a quantidade do produto: "))
         gerenciador.adicionar_produto(nome, quantidade)
     elif opcao == '2':
+        id = int(input("Digite o ID do produto que deseja atualizar: "))
+        nome = input("Digite o novo nome do produto: ")
+        quantidade = int(input("Digite a nova quantidade do produto: "))
+        gerenciador.atualizar_produto(id, nome, quantidade)
+    elif opcao == '3':
+        id = int(input("Digite o ID do produto que deseja deletar: "))
+        gerenciador.deletar_produto(id)
+    elif opcao == '4':
         produtos = gerenciador.visualizar_produtos()
         for produto in produtos:
             print(produto)
-    elif opcao == '3':
+    elif opcao == '5':
         break
     else:
         print("Opção inválida. Tente novamente.")
