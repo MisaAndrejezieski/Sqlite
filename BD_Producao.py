@@ -25,9 +25,24 @@ class GerenciadorDeProducao:
 
 # Uso da classe
 gerenciador = GerenciadorDeProducao('producao.db')
-gerenciador.adicionar_produto('Produto A', 100)
-gerenciador.adicionar_produto('Produto B', 200)
-produtos = gerenciador.visualizar_produtos()
-for produto in produtos:
-    print(produto)
+
+while True:
+    print("1. Adicionar produto")
+    print("2. Visualizar produtos")
+    print("3. Sair")
+    opcao = input("Escolha uma opção: ")
+
+    if opcao == '1':
+        nome = input("Digite o nome do produto: ")
+        quantidade = int(input("Digite a quantidade do produto: "))
+        gerenciador.adicionar_produto(nome, quantidade)
+    elif opcao == '2':
+        produtos = gerenciador.visualizar_produtos()
+        for produto in produtos:
+            print(produto)
+    elif opcao == '3':
+        break
+    else:
+        print("Opção inválida. Tente novamente.")
+
 gerenciador.fechar_conexao()
