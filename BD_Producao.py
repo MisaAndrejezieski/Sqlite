@@ -55,10 +55,9 @@ class Aplicativo:
 
         self.frame_botoes = ttk.Frame(self.root)
         self.frame_botoes.pack(side=tk.TOP)
-        #self.frame = ttk.Frame(self.root)--troca pelo código acima:
-        #self.frame.pack()
+        self.frame = ttk.Frame(self.root)
+        self.frame.pack()
 
-# move todos os widgets relacionados aos botões e campos de entrada para o novo frame.
         self.label_nome = ttk.Label(self.frame_botoes, text="Nome do Produto:")
         self.label_nome.pack(side=tk.LEFT)
         self.entry_nome = ttk.Entry(self.frame_botoes)
