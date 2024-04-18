@@ -114,21 +114,11 @@ class Aplicativo:
              messagebox.showerror("Erro", "Ocorreu um erro ao deletar o produto.")
 
     def visualizar_produtos(self):
-        self.listbox(0, tk.END)
+        self.listbox.delete(0, tk.END)
         produtos = self.gerenciador.visualizar_produtos()
         for produto in produtos:
             id, nome, quantidade = produto
-        self.listbox.insert(tk.END, f"ID: {id}, Nome: {nome}, Quantidade: {quantidade}")
-         
-        
-    # def visualizar_produtos(self):
-    #      self.listbox.delete(0, tk.END)
-    #      produtos = self.gerenciador.visualizar_produtos()
-    #      for produto in produtos:
-    #          id, nome, quantidade = produto
-    #      self.listbox.insert(tk.END, f"ID: {id}, Nome: {nome}, Quantidade: {quantidade}")
-
-    
+        self.listbox.insert(tk.END, f"ID: {id}, Nome: {nome}, Quantidade: {quantidade}") 
     
     def run(self):
         self.root.mainloop()
