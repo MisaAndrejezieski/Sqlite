@@ -88,9 +88,7 @@ class Aplicativo:
 
         self.listbox = tk.Listbox(self.root)
         self.listbox.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-        self.listbox = tk.Listbox(self.root)
-        self.listbox.pack()
-
+        
     def adicionar_produto(self):
         nome = self.entry_nome.get()
         quantidade = int(self.entry_quantidade.get())
