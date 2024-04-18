@@ -53,13 +53,16 @@ class Aplicativo:
         style = ttk.Style()
         style.theme_use('clam')
 
-        self.frame = ttk.Frame(self.root)
-        self.frame.pack()
+        self.frame_botoes = ttk.Frame(self.root)
+        self.frame_botoes.pack(side=tk.TOP)
+        #self.frame = ttk.Frame(self.root)--troca pelo código acima:
+        #self.frame.pack()
 
-        self.label_nome = ttk.Label(self.frame, text="Nome do Produto:")
-        self.label_nome.pack(side=tk.LEFT)
-        self.entry_nome = ttk.Entry(self.frame)
-        self.entry_nome.pack(side=tk.LEFT)
+# move todos os widgets relacionados aos botões e campos de entrada para o novo frame.
+        #self.label_nome = ttk.Label(self.frame, text="Nome do Produto:")
+        #self.label_nome.pack(side=tk.LEFT)
+        #self.entry_nome = ttk.Entry(self.frame)
+        #self.entry_nome.pack(side=tk.LEFT)
 
         self.label_quantidade = ttk.Label(self.frame, text="Quantidade:")
         self.label_quantidade.pack(side=tk.LEFT)
@@ -83,8 +86,11 @@ class Aplicativo:
         self.button_visualizar = ttk.Button(self.frame, text="Visualizar Produtos", command=self.visualizar_produtos)
         self.button_visualizar.pack(side=tk.LEFT)
 
+
         self.listbox = tk.Listbox(self.root)
-        self.listbox.pack()
+        self.listbox.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+        #self.listbox = tk.Listbox(self.root)
+        #self.listbox.pack()
 
     def adicionar_produto(self):
         nome = self.entry_nome.get()
