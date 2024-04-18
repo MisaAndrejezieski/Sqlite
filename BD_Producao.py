@@ -87,8 +87,8 @@ class Aplicativo:
         self.button_visualizar.pack(side=tk.LEFT)
 
 
-        self.listbox = tk.Listbox(self.root)
-        self.listbox.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+        #self.listbox = tk.Listbox(self.root)
+        #self.listbox.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         #self.listbox = tk.Listbox(self.root)
         #self.listbox.pack()
 
