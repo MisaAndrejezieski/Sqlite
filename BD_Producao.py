@@ -94,6 +94,7 @@ class Aplicativo:
         quantidade = int(self.entry_quantidade.get())
         if self.gerenciador.adicionar_produto(nome, quantidade):
             messagebox.showinfo("Sucesso", "Produto adicionado com sucesso!")
+            self.atualizar_lista()
         else:
             messagebox.showerror("Erro", "Ocorreu um erro ao adicionar o produto.")
 
@@ -110,8 +111,19 @@ class Aplicativo:
          id = int(self.entry_id.get())
          if self.gerenciador.deletar_produto(id):
              messagebox.showinfo("Sucesso", "Produto deletado com sucesso!")
+             self.atualizar_lista()
          else:
              messagebox.showerror("Erro", "Ocorreu um erro ao deletar o produto.")
+
+    def atualizar_lista(self):
+        self.listbox.delete(0, tk.END)
+        produtos = self.gerenciador.visualizar_produtos()
+        for produto in produtos:
+            id, nome, quantidade = produto
+            self.listbox.insert(tk.END, f"ID: {id}, Nome: {nome}, Quantidade: {quantidade}")
+
+    def run(self):
+        self.root.mainloop()
 
     def visualizar_produtos(self):
         self.listbox.delete(0, tk.END)
