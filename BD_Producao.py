@@ -1,6 +1,7 @@
 import sqlite3
 import tkinter as tk
 from tkinter import messagebox, ttk
+import matplotlib.pyplot as plt
 
 class GerenciadorDeProducao:
     def __init__(self, db_nome):
@@ -21,6 +22,15 @@ class GerenciadorDeProducao:
             return True
         except sqlite3.Error as e:
             return False
+        
+    def calcular_tempo_de_producao(self, id):
+        self.c.execute("SELECT quantidade, taxa_de_producao FROM produtos WHERE id = ?", (id,))
+        produto = self.c.fetchone()
+        if produto:
+            quantidade, taxa_de_producao = produto
+            return quantidade / taxa_de_producao
+        else:
+            return None    
     
     def atualizar_produto(self, id, nome, quantidade):
          try:
@@ -92,12 +102,25 @@ class Aplicativo:
     def adicionar_produto(self):
         nome = self.entry_nome.get()
         quantidade = int(self.entry_quantidade.get())
+        taxa_de_producao = float(self.entry_taxa_de_producao.get())
         if self.gerenciador.adicionar_produto(nome, quantidade):
             messagebox.showinfo("Sucesso", "Produto adicionado com sucesso!")
             self.atualizar_lista()
         else:
             messagebox.showerror("Erro", "Ocorreu um erro ao adicionar o produto.")
 
+    def visualizar_produtividade(self):
+        id = int(self.entry_id.get())
+        tempo_planejado = float(self.entry_tempo_planejado.get())
+        tempo_real = self.gerenciador.calcular_tempo_de_producao(id)
+        if tempo_real:
+            plt.plot(['Planejado', 'Real'], [tempo_planejado, tempo_real])
+            plt.ylabel('Tempo (horas)')
+            plt.title('Produtividade')
+            plt.show()
+        else:
+            messagebox.showerror("Erro", "Produto não encontrado.")
+            
     def atualizar_produto(self):
         id = int(self.entry_id.get())
         nome = self.entry_nome.get()
