@@ -130,7 +130,8 @@ class Aplicativo:
         produtos = self.gerenciador.visualizar_produtos()
         for produto in produtos:
             id, nome, quantidade = produto
-        self.listbox.insert(tk.END, f"ID: {id}, Nome: {nome}, Quantidade: {quantidade}") 
+        self.listbox.insert(tk.END, f"ID: {id}, Nome: {nome}, Quantidade: {quantidade}")
+        self.atualizar_lista()
     
     def run(self):
         self.root.mainloop()
