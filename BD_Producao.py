@@ -98,16 +98,24 @@ class Aplicativo:
 
         self.listbox = tk.Listbox(self.root)
         self.listbox.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-        
-    def adicionar_produto(self):
-        nome = self.entry_nome.get()
-        quantidade = int(self.entry_quantidade.get())
-        taxa_de_producao = float(self.entry_taxa_de_producao.get())
-        if self.gerenciador.adicionar_produto(nome, quantidade):
-            messagebox.showinfo("Sucesso", "Produto adicionado com sucesso!")
-            self.atualizar_lista()
-        else:
-            messagebox.showerror("Erro", "Ocorreu um erro ao adicionar o produto.")
+
+    def adicionar_produto(self, nome, quantidade, taxa_de_producao):
+        try:
+            self.c.execute("INSERT INTO produtos (nome, quantidade, taxa_de_producao) VALUES (?, ?, ?)", (nome, quantidade, taxa_de_producao))
+            self.conn.commit()
+            return True
+        except sqlite3.Error as e:
+            return False
+            
+    # def adicionar_produto(self):
+    #     nome = self.entry_nome.get()
+    #     quantidade = int(self.entry_quantidade.get())
+    #     taxa_de_producao = float(self.entry_taxa_de_producao.get())
+    #     if self.gerenciador.adicionar_produto(nome, quantidade):
+    #         messagebox.showinfo("Sucesso", "Produto adicionado com sucesso!")
+    #         self.atualizar_lista()
+    #     else:
+    #         messagebox.showerror("Erro", "Ocorreu um erro ao adicionar o produto.")
 
     def visualizar_produtividade(self):
         id = int(self.entry_id.get())
