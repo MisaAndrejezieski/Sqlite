@@ -3,8 +3,6 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 import matplotlib.pyplot as plt
 
-# 19/04/2024
-
 class GerenciadorDeProducao:
     def __init__(self, db_nome):
         self.conn = sqlite3.connect(db_nome)
