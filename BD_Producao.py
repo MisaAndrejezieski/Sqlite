@@ -22,13 +22,27 @@ class GerenciadorDeProducao:
         except sqlite3.Error as e:
             return False
 
-    def atualizar_produto(self, id, nome, quantidade):
-        try:
-            self.c.execute("UPDATE produtos SET nome = ?, quantidade = ? WHERE id = ?", (nome, quantidade, id))
-            self.conn.commit()
-            return True
-        except sqlite3.Error as e:
-            return False
+    def atualizar_lista(self):
+        self.listbox.delete(0, tk.END)
+        produtos = self.gerenciador.visualizar_produtos()
+        for produto in produtos:
+            id, nome, quantidade = produto
+            self.listbox.insert(tk.END, f"ID: {id}, Nome: {nome}, Quantidade: {quantidade}")
+
+    def visualizar_produtos(self):
+        self.atualizar_lista()
+
+    def run(self):
+        self.root.after(1000, self.atualizar_lista)  # Atualiza a lista a cada 1 segundo
+        self.root.mainloop()
+
+    # def atualizar_produto(self, id, nome, quantidade):
+    #     try:
+    #         self.c.execute("UPDATE produtos SET nome = ?, quantidade = ? WHERE id = ?", (nome, quantidade, id))
+    #         self.conn.commit()
+    #         return True
+    #     except sqlite3.Error as e:
+    #         return False
 
     def deletar_produto(self, id):
         try:
