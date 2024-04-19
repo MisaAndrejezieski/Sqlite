@@ -120,7 +120,7 @@ class Aplicativo:
             plt.show()
         else:
             messagebox.showerror("Erro", "Produto não encontrado.")
-            
+
     def atualizar_produto(self):
         id = int(self.entry_id.get())
         nome = self.entry_nome.get()
