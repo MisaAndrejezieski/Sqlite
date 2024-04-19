@@ -15,13 +15,21 @@ class GerenciadorDeProducao:
             )
         ''')
 
-    def adicionar_produto(self, nome, quantidade):
+    def adicionar_produto(self, nome, quantidade, taxa_de_producao):
         try:
-            self.c.execute("INSERT INTO produtos (nome, quantidade) VALUES (?, ?)", (nome, quantidade))
+            self.c.execute("INSERT INTO produtos (nome, quantidade, taxa_de_producao) VALUES (?, ?, ?)", (nome, quantidade, taxa_de_producao))
             self.conn.commit()
             return True
         except sqlite3.Error as e:
             return False
+
+    # def adicionar_produto(self, nome, quantidade):
+    #     try:
+    #         self.c.execute("INSERT INTO produtos (nome, quantidade) VALUES (?, ?)", (nome, quantidade))
+    #         self.conn.commit()
+    #         return True
+    #     except sqlite3.Error as e:
+    #         return False
         
     def calcular_tempo_de_producao(self, id):
         self.c.execute("SELECT quantidade, taxa_de_producao FROM produtos WHERE id = ?", (id,))
@@ -98,24 +106,25 @@ class Aplicativo:
 
         self.listbox = tk.Listbox(self.root)
         self.listbox.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-
-    def adicionar_produto(self, nome, quantidade, taxa_de_producao):
-        try:
-            self.c.execute("INSERT INTO produtos (nome, quantidade, taxa_de_producao) VALUES (?, ?, ?)", (nome, quantidade, taxa_de_producao))
-            self.conn.commit()
-            return True
-        except sqlite3.Error as e:
-            return False
             
-    # def adicionar_produto(self):
-    #     nome = self.entry_nome.get()
-    #     quantidade = int(self.entry_quantidade.get())
-    #     taxa_de_producao = float(self.entry_taxa_de_producao.get())
-    #     if self.gerenciador.adicionar_produto(nome, quantidade):
-    #         messagebox.showinfo("Sucesso", "Produto adicionado com sucesso!")
-    #         self.atualizar_lista()
-    #     else:
-    #         messagebox.showerror("Erro", "Ocorreu um erro ao adicionar o produto.")
+    def adicionar_produto(self):
+         nome = self.entry_nome.get()
+         quantidade = int(self.entry_quantidade.get())
+         taxa_de_producao = float(self.entry_taxa_de_producao.get())
+         if self.gerenciador.adicionar_produto(nome, quantidade, taxa_de_producao):
+             messagebox.showinfo("Sucesso", "Produto adicionado com sucesso!")
+             self.atualizar_lista()
+         else:
+             messagebox.showerror("Erro", "Ocorreu um erro ao adicionar o produto.")
+
+    def calcular_tempo_de_producao(self, id):
+        self.c.execute("SELECT quantidade, taxa_de_producao FROM produtos WHERE id = ?", (id,))
+        produto = self.c.fetchone()
+        if produto:
+            quantidade, taxa_de_producao = produto
+            return quantidade / taxa_de_producao
+        else:
+            return None
 
     def visualizar_produtividade(self):
         id = int(self.entry_id.get())
